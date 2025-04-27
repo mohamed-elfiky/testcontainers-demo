@@ -2,7 +2,7 @@ import { Test, TestingModule } from "@nestjs/testing";
 import { INestApplication } from "@nestjs/common";
 import * as request from "supertest";
 import { AppModule } from "./../src/app.module";
-import { GenericContainer, StartedTestContainer } from "testcontainers";
+import { GenericContainer, StartedTestContainer, Wait } from "testcontainers";
 
 jest.setTimeout(180000);
 
@@ -13,6 +13,7 @@ describe("RateLimiterController (e2e)", () => {
   beforeAll(async () => {
     redisContainer = await new GenericContainer("redis:alpine")
       .withExposedPorts(6379)
+      .withWaitStrategy(Wait.forLogMessage("Ready to accept connections"))
       .start();
 
     const redisHost = redisContainer.getHost();

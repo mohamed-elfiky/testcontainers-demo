@@ -71,6 +71,7 @@ Here's a breakdown of the setup process:
     ```typescript
     redisContainer = await new GenericContainer('redis:7-alpine')
       .withExposedPorts(6379)
+      .withNetworkAliases('redis')
       .withWaitStrategy(Wait.forLogMessage('Ready to accept connections'))
       .start();
     ```
@@ -99,3 +100,9 @@ Here's a breakdown of the setup process:
     process.env.REDIS_PORT = redisPort.toString();
 
     This is a **crucial step**. Before initializing the NestJS application for testing, the environment variables are set to point to the dynamically allocated host and port of the Testcontainers. This ensures the application connects to the temporary container instances, not local or other configured services.
+
+7. **Resources:**
+
+    - [Getting Started](https://testcontainers.com/getting-started/)
+    - [Testcontainers Video](https://youtu.be/sNg0bnMF_qY?si=ZNg8EBG3d79YuxJp)
+    
